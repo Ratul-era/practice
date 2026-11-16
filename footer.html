@@ -1,0 +1,504 @@
+<!-- footer.html - Footer Component with Integrated Styles & Complete Links -->
+<style>
+  /* Footer styles are deliberately scoped to this component so site-wide CSS
+     cannot accidentally collapse or hide its columns. */
+  #footer-section,
+  #footer-section * {
+    box-sizing: border-box;
+  }
+
+  #footer-section {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    padding: 58px 6% 32px;
+    overflow: visible;
+    isolation: isolate;
+    color: #f3f4f8;
+    background-color: #03151d;
+    background-image: url("footer-bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-top: 1px solid rgba(56, 232, 255, 0.28);
+    font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+  }
+
+  #footer-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(180deg, rgba(2, 18, 26, .30), rgba(2, 14, 20, .45));
+    pointer-events: none;
+  }
+
+  #footer-section .footer-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1360px;
+    margin: 0 auto;
+  }
+
+  /* Desktop: three columns. !important protects this shared component from
+     broad grid rules in the individual page stylesheets. */
+  #footer-section .footer-main-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.4fr) minmax(150px, .8fr) minmax(260px, 1.2fr) !important;
+    gap: 35px;
+    align-items: start;
+    width: 100%;
+    min-width: 0;
+    padding-bottom: 38px;
+    border-bottom: 1.5px solid rgba(56, 232, 255, .58);
+    box-shadow: 0 1px 12px rgba(0, 229, 255, .22);
+  }
+
+  #footer-section .footer-main-grid > *,
+  #footer-section .footer-col-bio,
+  #footer-section .footer-col-links,
+  #footer-section .footer-col-works {
+    min-width: 0;
+  }
+
+  #footer-section .footer-brand-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 16px;
+  }
+
+  #footer-section .footer-ar-badge {
+    display: flex;
+    flex: 0 0 52px;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border: 2px solid rgba(255, 220, 165, .85);
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 25%, #ffb84d 0%, #f56a00 70%, #c44100 100%);
+    box-shadow: 0 0 22px rgba(255, 128, 0, .65);
+    color: #fff;
+    font-size: 1.18rem;
+    font-weight: 800;
+  }
+
+  #footer-section .footer-brand-text h3 {
+    margin: 0 0 3px;
+    color: #fff;
+    font-size: 1.48rem;
+    font-weight: 800;
+    letter-spacing: -.01em;
+    line-height: 1.2;
+  }
+
+  #footer-section .footer-brand-text h3 span { color: #ff6a14; }
+
+  #footer-section .footer-brand-text p {
+    margin: 0;
+    color: #d5d9e2;
+    font-size: .85rem;
+    font-weight: 500;
+  }
+
+  #footer-section .footer-bio-desc {
+    max-width: 460px;
+    margin: 0 0 20px;
+    color: #d8dce6;
+    font-size: .94rem;
+    line-height: 1.6;
+  }
+
+  #footer-section .footer-contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  #footer-section .footer-contact-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    color: #eef0f6;
+    font-size: .9rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  #footer-section .footer-contact-icon {
+    display: inline-flex;
+    flex: 0 0 20px;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+  }
+
+  #footer-section .footer-icon-pin { color: #ff7b1a; }
+  #footer-section .footer-icon-phone { color: #22c55e; }
+  #footer-section .footer-icon-mail { color: #00d4ff; }
+
+  #footer-section .footer-contact-list a {
+    color: #eef0f6;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    transition: color .2s ease;
+  }
+
+  #footer-section .footer-contact-list a:hover { color: #38e8ff; }
+
+  #footer-section .footer-col-heading {
+    position: relative;
+    margin: 6px 0 20px;
+    padding-bottom: 10px;
+    color: #fff;
+    font-size: 1.02rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+
+  #footer-section .footer-col-heading::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 46px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #ff7b00, #ffae42);
+    content: "";
+  }
+
+  #footer-section .footer-quick-links {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  #footer-section .footer-quick-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #eaedf5;
+    font-size: .96rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform .2s ease, color .2s ease;
+  }
+
+  #footer-section .footer-quick-links a .chev {
+    color: #ff7b1a;
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  #footer-section .footer-quick-links a:hover {
+    color: #38e8ff;
+    transform: translateX(4px);
+  }
+
+  #footer-section .footer-works-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 16px 20px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  #footer-section .footer-works-grid li { min-width: 0; }
+
+  #footer-section .footer-works-grid a {
+    display: grid !important;
+    grid-template-columns: 24px minmax(0, 1fr) !important;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+    color: #eaedf5 !important;
+    font-size: .94rem;
+    font-weight: 500;
+    line-height: 1.4;
+    text-decoration: none;
+    visibility: visible !important;
+    opacity: 1 !important;
+    cursor: pointer;
+    transition: transform .2s ease, color .2s ease;
+  }
+
+  #footer-section .footer-works-grid a > span:not(.work-mini-icon) {
+    display: block !important;
+    min-width: 0;
+    color: #eaedf5 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  #footer-section .footer-works-grid a:hover {
+    color: #38e8ff !important;
+    transform: translateX(4px);
+  }
+
+  #footer-section .work-mini-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    font-size: .82rem;
+    flex-shrink: 0;
+  }
+
+  #footer-section .w-icon-orange { background: rgba(255,138,20,.22); color: #ff9424; border: 1px solid rgba(255,148,36,.45); }
+  #footer-section .w-icon-green  { background: rgba(34,197,94,.22); color: #34d399; border: 1px solid rgba(52,211,153,.45); }
+  #footer-section .w-icon-blue   { background: rgba(56,189,248,.22); color: #38bdf8; border: 1px solid rgba(56,189,248,.45); }
+  #footer-section .w-icon-purple { background: rgba(168,85,247,.22); color: #c084fc; border: 1px solid rgba(192,132,252,.45); }
+  #footer-section .w-icon-pink   { background: rgba(244,63,94,.22); color: #fb7185; border: 1px solid rgba(251,113,133,.45); }
+  #footer-section .w-icon-amber  { background: rgba(245,158,11,.22); color: #fbbf24; border: 1px solid rgba(251,191,36,.45); }
+
+  #footer-section .footer-bottom-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-top: 24px;
+  }
+
+  #footer-section .footer-legal-links {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    color: #d1d5e0;
+    font-size: .9rem;
+    line-height: 1.5;
+  }
+
+  #footer-section .footer-legal-links a {
+    color: #fff;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    cursor: pointer;
+  }
+
+  #footer-section .footer-legal-links a:hover { color: #38e8ff; }
+
+  #footer-section .back-to-top-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 22px;
+    border: 1.5px solid #4ef2ff;
+    border-radius: 999px;
+    background: rgba(6,32,44,.72);
+    box-shadow: 0 0 18px rgba(56,232,255,.48), inset 0 0 10px rgba(56,232,255,.16);
+    color: #fff;
+    font-family: inherit;
+    font-size: .92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .25s ease;
+  }
+
+  #footer-section .back-to-top-btn:hover {
+    background: rgba(0,180,216,.35);
+    transform: translateY(-2px);
+    box-shadow: 0 0 26px rgba(56,232,255,.75);
+  }
+
+  /* Tablet: profile and quick links on row one; works spans row two. */
+  @media (max-width: 1050px) {
+    #footer-section { padding: 48px 22px 32px; }
+
+    #footer-section .footer-main-grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(180px, .85fr) !important;
+      gap: 32px;
+    }
+
+    #footer-section .footer-col-works { grid-column: 1 / -1; }
+    #footer-section .footer-works-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  }
+
+  /* Narrow screens: profile full width, Quick Links and Works side by side. */
+  @media (max-width: 600px) {
+    #footer-section { padding: 40px 20px 25px; }
+
+    #footer-section .footer-main-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      column-gap: 18px;
+      row-gap: 28px;
+    }
+
+    #footer-section .footer-col-bio { grid-column: 1 / -1; }
+    #footer-section .footer-col-links,
+    #footer-section .footer-col-works { grid-column: auto; min-width: 0; }
+
+    #footer-section .footer-works-grid {
+      grid-template-columns: minmax(0, 1fr) !important;
+      gap: 13px;
+    }
+
+    #footer-section .footer-col-heading { font-size: .92rem; }
+    #footer-section .footer-quick-links a,
+    #footer-section .footer-works-grid a { font-size: .82rem; }
+    #footer-section .footer-quick-links { gap: 12px; }
+
+    #footer-section .footer-bottom-bar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    #footer-section .footer-legal-links { font-size: .82rem; }
+  }
+
+  /* Very narrow phones: stack all columns to preserve readable labels. */
+  @media (max-width: 380px) {
+    #footer-section .footer-main-grid {
+      grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    #footer-section .footer-col-bio,
+    #footer-section .footer-col-links,
+    #footer-section .footer-col-works { grid-column: auto; }
+  }
+</style>
+
+<footer class="site-footer" id="footer-section">
+  <div class="footer-inner">
+    <div class="footer-main-grid">
+      <!-- Column 1: Architect Profile & Contact -->
+      <div class="footer-col-bio">
+        <div class="footer-brand-row">
+          <div class="footer-ar-badge">AR</div>
+          <div class="footer-brand-text">
+            <h3>Ataur Rahman <span>Akash</span></h3>
+            <p>Assistant Architect, HORIZON &bull; IDEB ID: 68269</p>
+          </div>
+        </div>
+        <p class="footer-bio-desc">
+          Dedicated architectural professional with 6+ years of practical experience across 23+ projects in RAJUK, Cantonment, and Jalshiri areas, plus international visualization on Fiverr &amp; Upwork.
+        </p>
+        <ul class="footer-contact-list">
+          <li>
+            <span class="footer-contact-icon footer-icon-pin">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+            </span>
+            <span>House # 05, Ave # 01, Block-A, Chandrima Model Town, Mohammadpur, Dhaka</span>
+          </li>
+          <li>
+            <span class="footer-contact-icon footer-icon-phone">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.25 1.01l-2.2 2.2z"/></svg>
+            </span>
+            <a href="tel:+8801792985959">+88-01792985959</a>
+          </li>
+          <li>
+            <span class="footer-contact-icon footer-icon-mail">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            </span>
+            <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=archarakash09@gmail.com" target="_blank" rel="noopener noreferrer">archarakash09@gmail.com</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Column 2: Quick Links -->
+      <div class="footer-col-links">
+        <h4 class="footer-col-heading">QUICK LINKS:</h4>
+        <ul class="footer-quick-links">
+          <li><a href="index.html" onclick="if (window.navigateToPage) { navigateToPage('home'); return false; }" data-nav="home"><span class="chev">&rsaquo;</span> Home</a></li>
+          <li><a href="#resume" onclick="openResumeModal(event); return false;" data-action="open-resume"><span class="chev">&rsaquo;</span> Resume (resume.pdf)</a></li>
+          <li><a href="#contact" onclick="openContactModal(); return false;" data-action="open-contact"><span class="chev">&rsaquo;</span> Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Works -->
+      <div class="footer-col-works">
+        <h4 class="footer-col-heading">WORKS:</h4>
+        <ul class="footer-works-grid">
+          <li>
+            <a href="3Dvis.html" onclick="if (window.navigateToPage) { navigateToPage('3Dvis', 'all'); return false; }" data-card-select="0">
+              <span class="work-mini-icon w-icon-orange">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              </span>
+              <span>3D Visualization</span>
+            </a>
+          </li>
+          <li>
+            <a href="AW.html" onclick="if (window.navigateToPage) { navigateToPage('AW', 'all'); return false; }" data-card-select="1">
+              <span class="work-mini-icon w-icon-green">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m10 9 5 3-5 3V9z"/></svg>
+              </span>
+              <span>Animation walkthrough</span>
+            </a>
+          </li>
+          <li>
+            <a href="exp.html#national" onclick="if (window.navigateToPage) { navigateToPage('exp', 'national'); return false; }" data-card-select="2">
+              <span class="work-mini-icon w-icon-blue">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 6h2M13 6h2M9 10h2M13 10h2M9 14h2M13 14h2"/></svg>
+              </span>
+              <span>National Experience</span>
+            </a>
+          </li>
+          <li>
+            <a href="exp.html#international" onclick="if (window.navigateToPage) { navigateToPage('exp', 'international'); return false; }" data-card-select="3">
+              <span class="work-mini-icon w-icon-purple">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              </span>
+              <span>International Experience</span>
+            </a>
+          </li>
+          <li>
+            <a href="studio.html" onclick="if (window.navigateToPage) { navigateToPage('studio', 'all'); return false; }" data-card-select="4">
+              <span class="work-mini-icon w-icon-pink">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m12 3-9 18M12 3l9 18M6 15h12"/></svg>
+              </span>
+              <span>Studio</span>
+            </a>
+          </li>
+          <li>
+            <a href="model.html" onclick="if (window.navigateToPage) { navigateToPage('model', 'all'); return false; }" data-card-select="5">
+              <span class="work-mini-icon w-icon-amber">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg>
+              </span>
+              <span>Model Making</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Legal & Back to Top -->
+    <div class="footer-bottom-bar">
+      <div class="footer-legal-links">
+        <a href="#terms" onclick="openTermsModal(); return false;" data-action="open-terms">Terms and Condition</a>
+        <span>&bull;</span>
+        <span>Copyright &copy; 2026 Ataur Rahman Akash. All rights reserved.</span>
+      </div>
+      <button type="button" class="back-to-top-btn" id="backToTopBtn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+        <span>Back to the top</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 19V5"></path>
+          <path d="m5 12 7-7 7 7"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</footer>

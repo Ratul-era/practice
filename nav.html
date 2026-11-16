@@ -1,0 +1,704 @@
+<!-- nav.html - Navigation Bar Component with Integrated Styles & Work Dropdown -->
+<style>
+  .site-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 20px 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.35s ease, padding 0.35s ease, box-shadow 0.35s ease;
+    pointer-events: none;
+  }
+
+  .site-navbar > * {
+    pointer-events: auto;
+  }
+
+  .site-navbar.scrolled {
+    padding: 12px 44px;
+    background: rgba(255, 244, 240, 0.82);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 30px rgba(35, 20, 15, 0.08);
+  }
+
+  body.dark-theme .site-navbar.scrolled {
+    background: rgba(15, 16, 20, 0.85);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+  }
+
+  /* AR Brand Logo Circle */
+  .nav-brand {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff8524 0%, #ff2a4b 100%);
+    color: #ffffff;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 1.18rem;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    border: 2px solid rgba(255, 255, 255, 0.72);
+    box-shadow: 0 6px 20px rgba(255, 65, 50, 0.38), inset 0 1px 3px rgba(255, 255, 255, 0.45);
+    transition: transform 0.25s ease, box-shadow 0.3s ease, background 0.3s ease;
+    user-select: none;
+    cursor: pointer;
+  }
+
+  .nav-brand:hover {
+    transform: translateY(-2px) scale(1.04);
+  }
+
+  body.dark-theme .nav-brand {
+    background: radial-gradient(circle at 30% 25%, #ffb338 0%, #f26400 72%, #b83700 100%);
+    border: 2px solid rgba(255, 204, 128, 0.82);
+    box-shadow: 0 0 24px rgba(255, 136, 0, 0.55), inset 0 1px 4px rgba(255, 235, 190, 0.5);
+  }
+
+  /* Center Navigation Links (PC Screen) */
+  .nav-center-links {
+    display: flex;
+    align-items: center;
+    gap: 34px;
+    list-style: none;
+    margin: 0;
+    padding: 8px 26px;
+    border-radius: 999px;
+  }
+
+  .nav-center-links > li {
+    position: relative;
+  }
+
+  .nav-center-links a.nav-item,
+  .nav-center-links button.nav-item {
+    background: none;
+    border: none;
+    text-decoration: none;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-size: 1.02rem;
+    font-weight: 500;
+    color: #1f2227;
+    transition: color 0.25s ease, transform 0.2s ease;
+    position: relative;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 4px;
+  }
+
+  .nav-center-links .nav-item.active {
+    color: #de6625;
+    font-weight: 700;
+  }
+
+  .nav-center-links .nav-item:hover {
+    color: #ff5722;
+  }
+
+  body.dark-theme .nav-center-links .nav-item {
+    color: #a9adb6;
+  }
+
+  body.dark-theme .nav-center-links .nav-item.active {
+    color: #f39a3e;
+  }
+
+  body.dark-theme .nav-center-links .nav-item:hover {
+    color: #ffb15e;
+  }
+
+  /* Hover Dropdown Menu under "Work" */
+  .nav-work-dropdown-wrap {
+    position: relative;
+  }
+
+  .nav-work-caret {
+    font-size: 0.72rem;
+    transition: transform 0.28s ease;
+    color: #e06324;
+  }
+
+  .nav-work-dropdown-wrap:hover .nav-work-caret {
+    transform: rotate(180deg);
+  }
+
+  .nav-work-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    padding-top: 12px;
+    width: 330px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.26s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1005;
+  }
+
+  .nav-work-dropdown-wrap:hover .nav-work-dropdown,
+  .nav-work-dropdown-wrap:focus-within .nav-work-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .nav-work-dropdown-card {
+    background: rgba(255, 248, 245, 0.96);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    border: 1.5px solid rgba(235, 140, 95, 0.42);
+    border-radius: 22px;
+    padding: 14px;
+    box-shadow: 0 22px 55px rgba(25, 14, 10, 0.22);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  body.dark-theme .nav-work-dropdown-card {
+    background: rgba(18, 20, 26, 0.96);
+    border-color: rgba(245, 150, 60, 0.35);
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.68);
+  }
+
+  .nav-dd-header {
+    padding: 4px 10px 8px 10px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #e05a00;
+    border-bottom: 1px solid rgba(220, 120, 70, 0.2);
+    margin-bottom: 2px;
+  }
+
+  body.dark-theme .nav-dd-header {
+    color: #fb923c;
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-dd-group {
+    padding: 8px 10px;
+    border-radius: 14px;
+    transition: background 0.2s ease;
+  }
+
+  .nav-dd-group:hover {
+    background: rgba(255, 115, 40, 0.1);
+  }
+
+  .nav-dd-main-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #1f2328;
+    cursor: pointer;
+  }
+
+  .nav-dd-main-link:hover {
+    color: #e05a00;
+  }
+
+  body.dark-theme .nav-dd-main-link {
+    color: #f1f5f9;
+  }
+
+  body.dark-theme .nav-dd-main-link:hover {
+    color: #fb923c;
+  }
+
+  .nav-dd-sub-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 7px;
+    padding-left: 24px;
+  }
+
+  .nav-dd-sub-pill {
+    padding: 4px 11px;
+    border-radius: 8px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    text-decoration: none;
+    background: rgba(235, 115, 45, 0.12);
+    color: #b84300;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .nav-dd-sub-pill:hover {
+    background: #ff6a18;
+    color: #ffffff;
+  }
+
+  body.dark-theme .nav-dd-sub-pill {
+    background: rgba(255, 255, 255, 0.07);
+    color: #cbd5e1;
+  }
+
+  body.dark-theme .nav-dd-sub-pill:hover {
+    background: #ff7a18;
+    color: #ffffff;
+  }
+
+  /* Right Controls Group */
+  .nav-right-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* Music Button */
+  .nav-music-btn {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.88);
+    background: linear-gradient(145deg, #fff5f1, #f7e1da);
+    box-shadow: 0 6px 18px rgba(180, 105, 85, 0.18);
+    color: #1d1f24;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .nav-music-btn svg {
+    width: 21px;
+    height: 21px;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-music-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(235, 100, 60, 0.28);
+  }
+
+  .nav-music-btn.playing {
+    box-shadow: 0 0 0 4px rgba(255, 115, 45, 0.24), 0 8px 22px rgba(255, 95, 35, 0.35);
+  }
+
+  .nav-music-btn.playing svg {
+    animation: musicPulse 1.4s ease-in-out infinite;
+    color: #ea5b1b;
+  }
+
+  body.dark-theme .nav-music-btn {
+    background: radial-gradient(circle at 35% 30%, #2b231d 0%, #171413 100%);
+    border: 1.5px solid rgba(245, 154, 62, 0.45);
+    color: #f4a24c;
+    box-shadow: 0 0 20px rgba(245, 140, 40, 0.28), inset 0 0 10px rgba(245, 145, 45, 0.12);
+  }
+
+  body.dark-theme .nav-music-btn.playing svg {
+    color: #ffb866;
+  }
+
+  @keyframes musicPulse {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.14) rotate(-8deg); }
+  }
+
+  /* Light/Dark Theme Switch */
+  .theme-switch-btn {
+    width: 70px;
+    height: 38px;
+    border-radius: 999px;
+    padding: 4px;
+    background: rgba(255, 245, 241, 0.9);
+    border: 1.5px solid rgba(232, 130, 82, 0.55);
+    box-shadow: inset 0 2px 6px rgba(210, 110, 70, 0.12), 0 4px 14px rgba(190, 100, 70, 0.12);
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .theme-switch-thumb {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f37125 0%, #d9531e 100%);
+    color: #fff6ee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(220, 85, 30, 0.45);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), background 0.35s ease;
+  }
+
+  .theme-switch-thumb svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  body.dark-theme .theme-switch-btn {
+    background: rgba(38, 40, 46, 0.92);
+    border: 1.5px solid rgba(242, 148, 58, 0.45);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.55), 0 0 15px rgba(242, 148, 58, 0.15);
+  }
+
+  body.dark-theme .theme-switch-thumb {
+    background: linear-gradient(135deg, #f59338 0%, #df6e18 100%);
+    color: #1e2025;
+    box-shadow: 0 0 12px rgba(245, 147, 56, 0.6);
+  }
+
+  /* MENU Pill Button */
+  .nav-menu-btn {
+    height: 46px;
+    padding: 0 24px;
+    border-radius: 999px;
+    background: #232528;
+    color: #ffffff;
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(20, 22, 26, 0.22);
+    transition: all 0.25s ease;
+  }
+
+  .nav-menu-btn:hover {
+    background: #111315;
+    transform: translateY(-2px);
+  }
+
+  body.dark-theme .nav-menu-btn {
+    background: rgba(20, 22, 26, 0.92);
+    border: 1.5px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+
+  .menu-bars-icon {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 18px;
+  }
+
+  .menu-bars-icon span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 2px;
+    transition: transform 0.25s ease;
+  }
+
+  /* Dropdown Menu Drawer (Opens when clicking MENU button) */
+  .nav-dropdown-drawer {
+    position: fixed;
+    top: 78px;
+    right: 44px;
+    width: 360px;
+    max-height: calc(100vh - 96px);
+    overflow-y: auto;
+    background: rgba(255, 248, 245, 0.97);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    border: 1.5px solid rgba(235, 145, 105, 0.38);
+    border-radius: 24px;
+    padding: 22px;
+    box-shadow: 0 24px 60px rgba(35, 18, 12, 0.24);
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px) scale(0.97);
+    transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .nav-dropdown-drawer.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+
+  body.dark-theme .nav-dropdown-drawer {
+    background: rgba(18, 20, 26, 0.97);
+    border: 1.5px solid rgba(245, 150, 60, 0.34);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+    color: #f3f4f6;
+  }
+
+  .drawer-section-title {
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: #e06324;
+    margin: 0 0 10px 0;
+  }
+
+  body.dark-theme .drawer-section-title {
+    color: #f59e42;
+  }
+
+  .drawer-links-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 16px;
+  }
+
+  .drawer-links-grid a,
+  .drawer-links-grid button.drawer-link-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    font-family: inherit;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 12px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #22252a;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .drawer-links-grid a:hover,
+  .drawer-links-grid button.drawer-link-btn:hover {
+    background: rgba(255, 110, 48, 0.12);
+    color: #e05314;
+  }
+
+  body.dark-theme .drawer-links-grid a,
+  body.dark-theme .drawer-links-grid button.drawer-link-btn {
+    color: #e5e7eb;
+  }
+
+  body.dark-theme .drawer-links-grid a:hover,
+  body.dark-theme .drawer-links-grid button.drawer-link-btn:hover {
+    background: rgba(245, 150, 60, 0.15);
+    color: #ffaa4c;
+  }
+
+  .drawer-sub-pills {
+    display: flex;
+    gap: 8px;
+    padding: 2px 12px 8px 34px;
+  }
+
+  @media (max-width: 900px) {
+    .site-navbar {
+      padding: 14px 18px;
+    }
+    .site-navbar.scrolled {
+      padding: 10px 18px;
+    }
+    .nav-center-links {
+      display: none;
+    }
+    .nav-right-controls {
+      gap: 10px;
+    }
+    .nav-brand {
+      width: 44px;
+      height: 44px;
+      font-size: 1.05rem;
+    }
+    .nav-music-btn {
+      width: 42px;
+      height: 42px;
+    }
+    .theme-switch-btn {
+      width: 62px;
+      height: 34px;
+    }
+    .theme-switch-thumb {
+      width: 24px;
+      height: 24px;
+    }
+    .nav-menu-btn {
+      height: 42px;
+      padding: 0 18px;
+      font-size: 0.88rem;
+    }
+    .nav-dropdown-drawer {
+      right: 16px;
+      left: 16px;
+      width: auto;
+      top: 68px;
+    }
+  }
+</style>
+
+<header class="site-navbar" id="siteNavbar">
+  <a href="#home" onclick="navigateToPage('home'); return false;" class="nav-brand" data-nav="home" aria-label="Ataur Rahman Akash Home">AR</a>
+
+  <!-- Desktop Menu Links: {Home, Resume, Work (dropdown), Contact} -->
+  <ul class="nav-center-links">
+    <li>
+      <a href="#home" onclick="navigateToPage('home'); return false;" class="nav-item active" id="nav-home" data-nav="home">Home</a>
+    </li>
+    <li>
+      <a href="#home" onclick="openResumeModal(event); return false;" class="nav-item" data-action="open-resume">
+        <span>Resume</span>
+      </a>
+    </li>
+
+    <!-- Work Dropdown Container (Shows on mouse hover) -->
+    <li class="nav-work-dropdown-wrap" id="work-dropdown-trigger">
+      <a href="#works" onclick="navigateToSection('works'); return false;" class="nav-item" data-nav="works">
+        <span>Work</span>
+        <span class="nav-work-caret">&#9650;</span>
+      </a>
+
+      <div class="nav-work-dropdown">
+        <div class="nav-work-dropdown-card">
+          <div class="nav-dd-header">Architectural Portfolio Works</div>
+
+          <!-- 1. 3D Visualization > (Exterior, Interior) -->
+          <div class="nav-dd-group">
+            <a href="#view-subpage" onclick="navigateToPage('3Dvis', 'all'); return false;" class="nav-dd-main-link">
+              <span>🧊 3D Visualization</span>
+              <span>&rsaquo;</span>
+            </a>
+            <div class="nav-dd-sub-row">
+              <a href="#view-subpage" onclick="navigateToPage('3Dvis', 'exterior'); return false;" class="nav-dd-sub-pill">Exterior &rsaquo;</a>
+              <a href="#view-subpage" onclick="navigateToPage('3Dvis', 'interior'); return false;" class="nav-dd-sub-pill">Interior &rsaquo;</a>
+            </div>
+          </div>
+
+          <!-- 2. Animation Walkthrough > (Exterior, Interior) -->
+          <div class="nav-dd-group">
+            <a href="#view-subpage" onclick="navigateToPage('AW', 'all'); return false;" class="nav-dd-main-link">
+              <span>🎬 Animation Walkthrough</span>
+              <span>&rsaquo;</span>
+            </a>
+            <div class="nav-dd-sub-row">
+              <a href="#view-subpage" onclick="navigateToPage('AW', 'exterior'); return false;" class="nav-dd-sub-pill">Exterior &rsaquo;</a>
+              <a href="#view-subpage" onclick="navigateToPage('AW', 'interior'); return false;" class="nav-dd-sub-pill">Interior &rsaquo;</a>
+            </div>
+          </div>
+
+          <!-- 3. Experiences > (National, International) -->
+          <div class="nav-dd-group">
+            <a href="#view-subpage" onclick="navigateToPage('exp', 'all'); return false;" class="nav-dd-main-link">
+              <span>💼 Experiences</span>
+              <span>&rsaquo;</span>
+            </a>
+            <div class="nav-dd-sub-row">
+              <a href="#view-subpage" onclick="navigateToPage('exp', 'national'); return false;" class="nav-dd-sub-pill">National &rsaquo;</a>
+              <a href="#view-subpage" onclick="navigateToPage('exp', 'international'); return false;" class="nav-dd-sub-pill">International &rsaquo;</a>
+            </div>
+          </div>
+
+          <!-- 4. Studio -->
+          <div class="nav-dd-group">
+            <a href="#view-subpage" onclick="navigateToPage('studio', 'all'); return false;" class="nav-dd-main-link">
+              <span>📐 Studio</span>
+              <span style="font-size:0.74rem;opacity:0.65;">studio.html</span>
+            </a>
+          </div>
+
+          <!-- 5. Model Making -->
+          <div class="nav-dd-group">
+            <a href="#view-subpage" onclick="navigateToPage('model', 'all'); return false;" class="nav-dd-main-link">
+              <span>🏡 Model Making</span>
+              <span style="font-size:0.74rem;opacity:0.65;">model.html</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <a href="#footer-section" onclick="openContactModal(); return false;" class="nav-item" data-nav="contact">Contact</a>
+    </li>
+  </ul>
+
+  <div class="nav-right-controls">
+    <button type="button" class="nav-music-btn" id="musicToggleBtn" onclick="toggleBackgroundAudio()" aria-label="Play / Pause Continuous Background Music (audio.mp3)" title="Play / Pause Continuous Background Music (audio.mp3)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18V5l12-2v13"></path>
+        <path d="M9 9l12-2"></path>
+        <circle cx="6" cy="18" r="3"></circle>
+        <circle cx="18" cy="16" r="3"></circle>
+      </svg>
+    </button>
+
+    <button type="button" class="theme-switch-btn" id="themeToggleBtn" aria-label="Toggle Light and Dark Mode" title="Day / Night Mode Toggler">
+      <span class="theme-switch-thumb">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </span>
+    </button>
+
+    <button type="button" class="nav-menu-btn" id="menuToggleBtn" aria-expanded="false" aria-controls="navDropdownDrawer">
+      <span class="menu-bars-icon">
+        <span></span>
+        <span></span>
+      </span>
+      <span>MENU</span>
+    </button>
+  </div>
+
+  <!-- Interactive Navigation Dropdown Drawer -->
+  <div class="nav-dropdown-drawer" id="navDropdownDrawer" aria-hidden="true">
+    <div class="drawer-section-title">Navigation Menu</div>
+    <div class="drawer-links-grid">
+      <a href="#home" onclick="navigateToPage('home'); closeMenuDrawer(); return false;" data-nav="home"><span>🏠 Home (index.html)</span><span>&rarr;</span></a>
+      <a href="#home" onclick="openResumeModal(event); closeMenuDrawer(); return false;" data-action="open-resume"><span>📄 Resume (resume.pdf)</span><span>PDF</span></a>
+      <a href="#works" onclick="navigateToSection('works'); closeMenuDrawer(); return false;" data-nav="works"><span>✨ Selected Works Gallery</span><span>&rarr;</span></a>
+      <a href="#footer-section" onclick="openContactModal(); closeMenuDrawer(); return false;" data-nav="contact"><span>📇 Contact / Reach Me!</span><span>&rarr;</span></a>
+    </div>
+
+    <div class="drawer-section-title">Work Categories</div>
+    <div class="drawer-links-grid" style="margin-bottom:0;">
+      <div>
+        <a href="#view-subpage" onclick="navigateToPage('3Dvis', 'all'); closeMenuDrawer(); return false;" data-card-select="0"><span>🏛️ 3D Visualization</span><span>3Dvis.html</span></a>
+        <div class="drawer-sub-pills">
+          <a href="#view-subpage" onclick="navigateToPage('3Dvis', 'exterior'); closeMenuDrawer(); return false;" class="nav-dd-sub-pill">Exterior &rsaquo;</a>
+          <a href="#view-subpage" onclick="navigateToPage('3Dvis', 'interior'); closeMenuDrawer(); return false;" class="nav-dd-sub-pill">Interior &rsaquo;</a>
+        </div>
+      </div>
+      <div>
+        <a href="#view-subpage" onclick="navigateToPage('AW', 'all'); closeMenuDrawer(); return false;" data-card-select="1"><span>🎬 Animation Walkthrough</span><span>AW.html</span></a>
+        <div class="drawer-sub-pills">
+          <a href="#view-subpage" onclick="navigateToPage('AW', 'exterior'); closeMenuDrawer(); return false;" class="nav-dd-sub-pill">Exterior &rsaquo;</a>
+          <a href="#view-subpage" onclick="navigateToPage('AW', 'interior'); closeMenuDrawer(); return false;" class="nav-dd-sub-pill">Interior &rsaquo;</a>
+        </div>
+      </div>
+      <div>
+        <a href="#view-subpage" onclick="navigateToPage('exp', 'all'); closeMenuDrawer(); return false;" data-card-select="2"><span>🌍 Experiences</span><span>exp.html</span></a>
+        <div class="drawer-sub-pills">
+          <a href="#view-subpage" onclick="navigateToPage('exp', 'national'); closeMenuDrawer(); return false;" class="nav-dd-sub-pill">National &rsaquo;</a>
+          <a href="#view-subpage" onclick="navigateToPage('exp', 'international'); closeMenuDrawer(); return false;" class="nav-dd-sub-pill">International &rsaquo;</a>
+        </div>
+      </div>
+      <a href="#view-subpage" onclick="navigateToPage('studio', 'all'); closeMenuDrawer(); return false;" data-card-select="4"><span>📐 Studio</span><span>studio.html</span></a>
+      <a href="#view-subpage" onclick="navigateToPage('model', 'all'); closeMenuDrawer(); return false;" data-card-select="5"><span>🏡 Model Making</span><span>model.html</span></a>
+    </div>
+  </div>
+</header>
